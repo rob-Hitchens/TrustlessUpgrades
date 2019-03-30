@@ -14,7 +14,11 @@ By default, users accept upgrades (automatic update).
 
 ## Familiar contract style
 
-Upgradable contracts are written in familar styles, significantly reducing the learning curve required to deploy upgradable contract systems. See the `HelloUniverse.sol` example which shows there are minimal requirements to transfer a regular contract into an upgradable contract. All that is required is to inherit the `Upgradable` contract and pass an argument through the constructor. 
+Upgradable contracts are written in familar styles, significantly reducing the learning curve required to deploy upgradable contract systems. See the `HelloUniverse.sol` example which shows there are minimal requirements to transfer a regular contract into an upgradable contract. All that is required is:
+
+- inherit the `Upgradable` contract.
+- pass an argument through the constructor. 
+- guard functions with the onlyProxy modifier to prevent anyone from accessing an implementation directly. 
 
 ## Preserves State
 
@@ -34,7 +38,7 @@ Contract state is stored in the Proxy contract and preserved through versions.
 - Deploy an upgradable contract (the first implementation) that inherits from `Upgradable` and passes a `componentUid` to `Upgradable`. This value must match the `componentUid` in the `Registry`. This helps prevent deployment process errors. 
 - Register the address of the first implementation in the `Registry`. 
 - Set the default implementation to the first implementation in the `Registry`. 
-- Instantiate the upgradable contract _at the Proxy contract address.`
+- Instantiate the upgradable contract _at the Proxy contract address._
 
 ## Manage Releases
 
