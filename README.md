@@ -32,7 +32,7 @@ Contract state is stored in the Proxy contract and preserved through versions.
 
 ## Migrations
 
-- Deploy a `Proxy`. Each proxy automatically deploys a Registry. One registry per upgradable contract. 
+- Deploy a `Proxy`. Each proxy automatically deploys a `Registry`. One registry per upgradable contract. 
 - Note the registry address from the `Proxy`. 
 - Instantiate the Registry and note the unique `componentUid`.
 - Deploy an upgradable contract (the first implementation) that inherits from `Upgradable` and passes a `componentUid` to `Upgradable`. This value must match the `componentUid` in the `Registry`. This helps prevent deployment process errors. 
@@ -42,7 +42,7 @@ Contract state is stored in the Proxy contract and preserved through versions.
 
 ## Manage Releases
 
-- The account that deployed the `Proxy` is the intial (transferrable) Release Manager for the registry contract, which is not upgradable. 
+- The account that deployed the `Proxy` is the intial (transferrable) Release Manager for the registry contract, which is not upgradable (there is no known reason why an upgradable version is out of the question). 
 - Each implementation contract inherits from the previous implementation contract source code. This is to prevent accidental overwrite of existing states. Existing storage layout and functions are preserved. Be sure to pass in a componentUid that matches the componentUid the registry expects or it will not accept the implementation. 
 - Register additional implementation contracts.
 - Optionally set the default implementation to the new implementation contract. 
