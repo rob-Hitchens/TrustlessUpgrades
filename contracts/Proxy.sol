@@ -125,7 +125,7 @@ contract Proxy is ProxyInterface, RegistryClient {
     } 
     
     /**
-     * @notice The delegate call. Delegates to the user's preferred implementation. 
+     * @notice Delegates invokations to the user's preferred implementation. 
      */
     function () external payable {
         address implementationAddress = userImplementation(msg.sender);
@@ -143,4 +143,3 @@ contract Proxy is ProxyInterface, RegistryClient {
         }
     }
 }
-
