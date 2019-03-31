@@ -7,6 +7,15 @@ import "./Registry.sol";
  * @author Rob Hitchens
  * @notice Trustless upgradable contract proxy.
  */
+ 
+interface ProxyInterface {
+    function releaseManager() external view returns(address);
+    function newReleaseManager(address newManager) external;
+    function registryAddress() external view returns(address);
+    function componentUid() external view returns(bytes32);
+    function userImplementation(address user) external view returns(address);
+    function () external payable;
+}
 
 contract RegistryClient {
     
@@ -37,20 +46,6 @@ contract RegistryClient {
     }
     
     /**
-     * @return The address of the authoratative implementation registry.
-     */
-    function registryImplementationAddress() public view returns(address) {
-        address r;
-        bytes32 registryAddressKey = REGISTRY_ADDRESS_KEY;
-        //solium-disable-next-line security/no-inline-assembly
-        assembly {
-            r := sload(registryAddressKey)
-        }
-        require(r != UNDEFINED);
-        return r;
-    }
-    
-    /**
      * @return The address of the privileged release manager. 
      */
     function releaseManager() public view returns(address) {
@@ -77,7 +72,7 @@ contract RegistryClient {
     }
 }
 
-contract Proxy is RegistryClient {
+contract Proxy is ProxyInterface, RegistryClient {
     
     bytes32 private constant REGISTRY_ADDRESS_KEY = keccak256("Registry address key");
     address private constant UNDEFINED = address(0);
@@ -148,3 +143,4 @@ contract Proxy is RegistryClient {
         }
     }
 }
+
