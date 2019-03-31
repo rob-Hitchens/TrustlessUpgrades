@@ -93,7 +93,7 @@ contract Registry is RegistryInterface, Ownable {
     function setMyImplementation(address implementationAddress) public {
         if(implementationAddress != UNDEFINED) require(isImplementation(implementationAddress), "implementationAddress is not registered.");
         userImplementationChoices[msg.sender] = implementationAddress;
-        emit LogUserImplementation(msg.sender, implementationAddress );
+        emit LogUserImplementation(msg.sender, implementationAddress);
     }
     
     /**
