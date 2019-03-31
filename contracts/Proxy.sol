@@ -29,7 +29,7 @@ contract RegistryClient {
      * @notice Only the release manager can modify the implementation options in the registry.
      */
     modifier onlyReleaseManager {
-       require(msg.sender == releaseManager()) ;
+       require(msg.sender == releaseManager());
        _;
     }
     
