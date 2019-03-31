@@ -24,7 +24,7 @@ contract HelloWorld is Upgradable {
     constructor(bytes32 componentUid) Upgradable(componentUid) public {}
     
     /**
-     * @dev Use onlyProxy to ensure failure if the deployed implementation is accessed without using the proxy.
+     * @dev Use onlyProxy to ensure failure if the deployed implementation if accessed without using the proxy.
      */
     function set(address a, uint u) public onlyProxy {
         something = a;
@@ -51,9 +51,8 @@ contract HelloUniverse is HelloWorld {
     constructor(bytes32 componentUid) HelloWorld(componentUid) public {}
     
     /**
-     * @dev Use onlyProxy to ensure failure if the deployed implementation is accessed without using the proxy.
-     */
-    
+     * @dev Use onlyProxy to ensure failure if the deployed implementation if accessed without using the proxy.
+     */    
     function set(address a, uint u, uint v) public onlyProxy {
         something = a;
         somethingElse = u;
