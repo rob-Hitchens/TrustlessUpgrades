@@ -116,8 +116,8 @@ contract Proxy is RegistryClient {
      * @return The componentUid for this proxy.
      */
     function componentUid() public view returns(bytes32) {
-        Registry registry = Registry(registryAddress());
-        return registry.COMPONENT_UID();
+        RegistryInterface registry = RegistryInterface(registryAddress());
+        return registry.componentUid();
     }
     
     /** 
@@ -125,7 +125,7 @@ contract Proxy is RegistryClient {
      * @dev If the user has no preference or the preference was recalled, returns the default implementation. 
      */
     function userImplementation(address user) public view returns(address) {
-        Registry registry = Registry(registryAddress());
+        RegistryInterface registry = RegistryInterface(registryAddress());
         return registry.userImplementation(user);
     } 
     
