@@ -34,7 +34,7 @@ contract RegistryClient {
     }
     
     /**
-     * @dev The release manager is stored in proxy contract. It will be consulted to determine user's preferred implementation. 
+     * @dev The release manager is stored in proxy contract. 
      */
     constructor() public {
         bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
@@ -125,7 +125,7 @@ contract Proxy is ProxyInterface, RegistryClient {
     } 
     
     /**
-     * @notice Delegates to the user's preferred implementation.  
+     * @notice Delegates invokations to the user's preferred implementation. 
      */
     function () external payable {
         address implementationAddress = userImplementation(msg.sender);
