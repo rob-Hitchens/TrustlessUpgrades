@@ -59,7 +59,7 @@ contract Registry is RegistryInterface, Ownable {
      * @param implementationAddress Address of a compatible implementation contract. 
      * @notice The componentUid() function in the implementationAddress must return a matching componentUid. This helps prevent deployment errors. 
      */
-    function addImplementation(address implementationAddress) external onlyOwner {
+    function addImplementation(address implementationAddress) public onlyOwner {
         UpgradableInterface u = UpgradableInterface(implementationAddress);
         require(u.componentUid() == COMPONENT_UID, "Implementation.componentUid doesn't match this registry's componentUid.");
         validImplementations.insert(implementationAddress);
