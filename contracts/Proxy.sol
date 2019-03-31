@@ -17,7 +17,7 @@ interface ProxyInterface {
     function () external payable;
 }
 
-contract RegistryClient {
+contract RegistryOwner {
     
     bytes32 private constant REGISTRY_ADDRESS_KEY = keccak256("Registry address key");
     bytes32 private constant RELEASE_MANAGER_KEY = keccak256("Release Manager key");
@@ -72,7 +72,7 @@ contract RegistryClient {
     }
 }
 
-contract Proxy is ProxyInterface, RegistryClient {
+contract Proxy is ProxyInterface, RegistryOwner {
     
     bytes32 private constant REGISTRY_ADDRESS_KEY = keccak256("Registry address key");
     address private constant UNDEFINED = address(0);
