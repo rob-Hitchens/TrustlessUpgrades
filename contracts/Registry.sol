@@ -10,14 +10,27 @@ import "./HitchensUnorderedAddressSet.sol";
 import "./Upgradable.sol";
 import "./Ownable.sol";
 
-contract Registry is Ownable {
+interface RegistryInterface {
+    function componentUid() external view returns(bytes32);
+    function addImplementation(address implementationAddress) external;
+    function recallImplementation(address implementationAddress) external;
+    function setDefaultImplementation(address implementationAddress) external;
+    function setMyImplementation(address implementationAddress) external;
+    function userImplementation(address user) external view returns(address);
+    function myImplementation() external view returns(address);
+    function isImplementation(address implementationAddress) external view returns(bool);
+    function implementationCount() external view returns(uint);
+    function implementationAtIndex(uint index) external view returns(address);
+}
+
+contract Registry is RegistryInterface, Ownable {
     
     using HitchensUnorderedAddressSetLib for HitchensUnorderedAddressSetLib.Set;
     HitchensUnorderedAddressSetLib.Set validImplementations;
     
     address defaultImplementation;
     address constant UNDEFINED = address(0);
-    bytes32 public COMPONENT_UID;
+    bytes32 COMPONENT_UID;
     
     mapping(address => address) userImplementationChoices;
     
@@ -36,6 +49,13 @@ contract Registry is Ownable {
     }
     
     /**
+     * @return bytes32 The componentUid this registry accepts.
+     */
+    function componentUid() public view returns(bytes32) {
+        return COMPONENT_UID;
+    }
+    
+    /**
      * @param implementationAddress Address of a compatible implementation contract. 
      * @notice The componentUid() function in the implementationAddress must return a matching componentUid. This helps prevent deployment errors. 
      */
@@ -50,7 +70,7 @@ contract Registry is Ownable {
      * @param implementationAddress The address of an implementation contract to recall. 
      * @notice Only the release manager. Cannot recall the default implementation. 
      */
-    function recallImplementation(address implementationAddress) external onlyOwner {
+    function recallImplementation(address implementationAddress) public onlyOwner {
         require(implementationAddress != defaultImplementation, "Cannot recall default implementation.");
         validImplementations.remove(implementationAddress);
         emit LogRecalledImplementation(msg.sender, implementationAddress);
@@ -60,7 +80,7 @@ contract Registry is Ownable {
      * @param implementationAddress Set the default implementation. 
      * @notice Only the release manager. The default implementation address must be registered. 
      */
-    function setDefaultImplementation(address implementationAddress) external onlyOwner returns(bool) {
+    function setDefaultImplementation(address implementationAddress) public onlyOwner {
         require(isImplementation(implementationAddress), "implementationAddress is not registered.");
         defaultImplementation = implementationAddress;
         emit LogNewDefaultImplementation(msg.sender, implementationAddress);
@@ -111,7 +131,7 @@ contract Registry is Ownable {
      * @param index The row number to inspect. 
      * @return address The address of an implementtion address.
      */
-    function returnImplementationAtIndex(uint index) public view returns(address) {
+    function implementationAtIndex(uint index) public view returns(address) {
         return validImplementations.keyAtIndex(index);
     }
 }
