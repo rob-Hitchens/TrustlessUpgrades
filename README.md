@@ -42,12 +42,23 @@ Contract state is stored in the Proxy contract and preserved through versions.
 
 ## Manage Releases
 
-- The account that deployed the `Proxy` is the intial (transferrable) Release Manager for the registry contract, which is not upgradable (there is no known reason why an upgradable version is out of the question). 
-- Each implementation contract inherits from the previous implementation contract source code. This is to prevent accidental overwrite of existing states. Existing storage layout and functions are preserved. Be sure to pass in a componentUid that matches the componentUid the registry expects or it will not accept the implementation. 
+- The account that deployed the `Proxy` is the intial owner of the registry contract, which is not upgradable. 
+- Each implementation contract inherits from the previous implementation contract source code. This is to prevent accidental overwrite of existing states. Existing storage layout and functions are preserved in the proxy contract. Be sure to pass in a componentUid that matches the componentUid the registry expects or it will not accept the implementation. 
+- Implementation contracts _should_ use the `onlyProxy` modifier to prevent implementation contracts writing to their own when called directly. They should only be called through the proxy to ensure all writes are to the proxy state. 
 - Register additional implementation contracts.
 - Optionally set the default implementation to the new implementation contract. 
 - Use the ABI of the implementation that matches the user's preferred implementation (includes default). The `Proxy` will delegate to the user's preferred implementation. 
 - Optionally recall implementations. Set another default implementation before recalling the default implementation. 
+
+## Full Decentralization
+
+The transferable registry owner is uniquely privileged to add and recall implementations and set the default implementation. This structure _implies_ considerable remaining centralized control, especially given that the default user configuration accepts all changes as the default implementation evolves. (Users who don't want push updates select an implementation and lock it in, which halts upgrade process.)
+
+The registry owner privilege is transferable. It is expected that this privilege would be transferred to a suitable governance contract to diffuse centralized control. Formulation and implementation of a less centralized governance process is a separate concern. All that is required is to deploy an acceptable governance contract and transfer registry ownership. Such a contract would define the proposal and approval processes for new implementations and recalls of problematic implementations. 
+
+For emphasis, nothing the registry owner does can force an update upon individual users. The registry owner only controls the range of possibilities available to users. The registry owner should be primarily focused on quality assurance and ensuring no implementation harms the application or its users. The onboarding process for new implementations anticipates that users will want to see proposed implementations _as deployed and at a specific address_ so they can both examine the bytecode and vote on an unambiguous proposal. 
+
+This structure can potentially bootstrap crowdsourcing of contract upgrades in a way that protects users from bad actors and well-meaning but flawed implementations. 
 
 ## Tests
 

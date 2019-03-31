@@ -9,70 +9,13 @@ import "./Registry.sol";
  */
  
 interface ProxyInterface {
-    function releaseManager() external view returns(address);
-    function newReleaseManager(address newManager) external;
     function registryAddress() external view returns(address);
     function componentUid() external view returns(bytes32);
     function userImplementation(address user) external view returns(address);
     function () external payable;
 }
 
-contract RegistryOwner {
-    
-    bytes32 private constant REGISTRY_ADDRESS_KEY = keccak256("Registry address key");
-    bytes32 private constant RELEASE_MANAGER_KEY = keccak256("Release Manager key");
-    address private constant UNDEFINED = address(0);
-    
-    event LogNewReleaseManager(address sender, address releaseManager);
-    
-    /**
-     * @notice Only the release manager can modify the implementation options in the registry.
-     */
-    modifier onlyReleaseManager {
-       require(msg.sender == releaseManager(), "Only the release manager can do this.");
-       _;
-    }
-    
-    /**
-     * @dev The release manager is stored in proxy contract. 
-     */
-    constructor() public {
-        bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
-        address releaseManager = msg.sender;
-         //solium-disable-next-line security/no-inline-assembly
-        assembly {
-            sstore(releaseManagerKey, releaseManager) 
-        }
-    }
-    
-    /**
-     * @return The address of the privileged release manager. 
-     */
-    function releaseManager() public view returns(address) {
-        address r;
-        bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
-        //solium-disable-next-line security/no-inline-assembly
-        assembly {
-            r := sload(releaseManagerKey)
-        }
-        return r;
-    }
-    
-    /**
-     * @param newManager The address of the new release manager. 
-     * @notice Only the current manager can appoint a new release manager. 
-     * @notice Set to 0x0 to renounce further changes to the implementation options.
-     */
-    function newReleaseManager(address newManager) public onlyReleaseManager {
-        bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
-        //solium-disable-next-line security/no-inline-assembly
-        assembly {
-            sstore(releaseManagerKey, newManager) 
-        }
-    }
-}
-
-contract Proxy is ProxyInterface, RegistryOwner {
+contract Proxy is ProxyInterface {
     
     bytes32 private constant REGISTRY_ADDRESS_KEY = keccak256("Registry address key");
     address private constant UNDEFINED = address(0);
