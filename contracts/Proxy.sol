@@ -29,7 +29,7 @@ contract RegistryClient {
      * @notice Only the release manager can modify the implementation options in the registry.
      */
     modifier onlyReleaseManager {
-       require(msg.sender == releaseManager());
+       require(msg.sender == releaseManager(), "Only the release manager can do this.");
        _;
     }
     
@@ -38,8 +38,8 @@ contract RegistryClient {
      */
     constructor() public {
         bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
-        //solium-disable-next-line security/no-inline-assembly
         address releaseManager = msg.sender;
+         //solium-disable-next-line security/no-inline-assembly
         assembly {
             sstore(releaseManagerKey, releaseManager) 
         }
@@ -61,9 +61,9 @@ contract RegistryClient {
     /**
      * @param newManager The address of the new release manager. 
      * @notice Only the current manager can appoint a new release manager. 
+     * @notice Set to 0x0 to renounce further changes to the implementation options.
      */
     function newReleaseManager(address newManager) public onlyReleaseManager {
-        require(newManager != UNDEFINED);
         bytes32 releaseManagerKey = RELEASE_MANAGER_KEY;
         //solium-disable-next-line security/no-inline-assembly
         assembly {
@@ -103,7 +103,7 @@ contract Proxy is ProxyInterface, RegistryClient {
         assembly {
             r := sload(registryAddressKey)
         }
-        require(r != UNDEFINED);
+        require(r != UNDEFINED, "Internal error. The registry is undefined.");
         return r;
     }
     
@@ -125,7 +125,7 @@ contract Proxy is ProxyInterface, RegistryClient {
     } 
     
     /**
-     * @notice Delegates invokations to the user's preferred implementation. 
+     * @notice Delegates to the user's preferred implementation.  
      */
     function () external payable {
         address implementationAddress = userImplementation(msg.sender);
