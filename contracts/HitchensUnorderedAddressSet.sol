@@ -71,38 +71,3 @@ library HitchensUnorderedAddressSetLib {
         delete self.keyList;
     }
 }
-
-
-contract HitchensUnorderedAddressSet {
-    
-    using HitchensUnorderedAddressSetLib for HitchensUnorderedAddressSetLib.Set;
-    HitchensUnorderedAddressSetLib.Set set;
-    
-    event LogUpdate(address sender, string action, address key);
-    
-    function exists(address key) public view returns(bool) {
-        return set.exists(key);
-    }
-    
-    function insert(address key) public {
-        set.insert(key);
-        emit LogUpdate(msg.sender, "insert", key);
-    }
-    
-    function remove(address key) public {
-        set.remove(key);
-        emit LogUpdate(msg.sender, "remove", key);
-    }
-    
-    function count() public view returns(uint) {
-        return set.count();
-    }
-    
-    function keyAtIndex(uint index) public view returns(address) {
-        return set.keyAtIndex(index);
-    }
-    
-    function nukeSet() public {
-        set.nukeSet();
-    }
-}
