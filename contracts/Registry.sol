@@ -44,7 +44,7 @@ contract Registry is RegistryInterface, Ownable {
      * Ensures a unique identifier for the component this registry is concerned with. 
      */
     constructor() public {
-        COMPONENT_UID = keccak256(abi.encodePacked(address(this), msg.sender));
+        COMPONENT_UID = keccak256(abi.encodePacked(msg.sender));
         emit LogNewRegistry(msg.sender, address(this));
     }
     
