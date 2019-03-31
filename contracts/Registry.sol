@@ -68,7 +68,7 @@ contract Registry is RegistryInterface, Ownable {
     
     /**
      * @param implementationAddress The address of an implementation contract to recall. 
-     * @notice Only the release manager. Cannot recall the default implementation. 
+     * @notice onlyOwner. Cannot recall the default implementation. 
      */
     function recallImplementation(address implementationAddress) public onlyOwner {
         require(implementationAddress != defaultImplementation, "Cannot recall default implementation.");
@@ -78,7 +78,7 @@ contract Registry is RegistryInterface, Ownable {
     
     /**
      * @param implementationAddress Set the default implementation. 
-     * @notice Only the release manager. The default implementation address must be registered. 
+     * @notice onlyOwner. The default implementation address must be registered. 
      */
     function setDefaultImplementation(address implementationAddress) public onlyOwner {
         require(isImplementation(implementationAddress), "implementationAddress is not registered.");
@@ -89,6 +89,7 @@ contract Registry is RegistryInterface, Ownable {
     /**
      * @param implementationAddress User's preferred implementation. 
      * @notice Overrides the default implementation unless the user's preferred implementation was recalled. 
+     * @notice Set to 0x0 to use the present and future default implementation set by the registry owner.
      */
     function setMyImplementation(address implementationAddress) public {
         if(implementationAddress != UNDEFINED) require(isImplementation(implementationAddress), "implementationAddress is not registered.");
