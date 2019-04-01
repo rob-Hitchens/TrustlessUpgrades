@@ -106,6 +106,7 @@ contract Registry is RegistryInterface, Ownable {
         if(!validImplementations.exists(implementation)) return defaultImplementation;
         return implementation;
     }
+    
     /**
      * @return address msg.sender's preferred implementation address.
      */

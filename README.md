@@ -52,7 +52,7 @@ Contract state is stored in the Proxy contract and preserved through versions.
 
 ## Full Decentralization
 
-The transferable registry owner is uniquely privileged to add and recall implementations and set the default implementation. This structure _implies_ considerable remaining centralized control, especially given that the default user configuration accepts all changes as the default implementation evolves. (Users who don't want push updates select an implementation and lock it in, which halts upgrade process.)
+The transferable registry owner is uniquely privileged to add and recall implementations and set the default implementation. This structure _implies_ considerable remaining centralized control, especially given that the default user configuration accepts all changes as the default implementation evolves. (Users who don't want push updates select an implementation and lock it in, which halts the upgrade process.)
 
 The registry owner privilege is transferable. It is expected that this privilege would be transferred to a suitable governance contract to diffuse centralized control. Formulation and implementation of a less centralized governance process is a separate concern. All that is required is to deploy an acceptable governance contract and transfer registry ownership. Such a contract would define the proposal and approval processes for new implementations and recalls of problematic implementations. 
 
