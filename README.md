@@ -12,7 +12,7 @@ User's can set a preferred implementation version and disregard new releases (up
 
 By default, users accept upgrades (automatic update). 
 
-## Familiar contract style
+## Familiar Contract Style
 
 Upgradable contracts are written in familar styles, significantly reducing the learning curve required to deploy upgradable contract systems. See the `HelloUniverse.sol` example which shows there are minimal requirements to transform a regular contract into an upgradable contract. All that is required is:
 
