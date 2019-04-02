@@ -8,7 +8,7 @@ Use this framework to implement upgradable contracts with user control over upgr
 
 ## User Opt-in/out
 
-User's can set a preferred implementation version and disregard new releases (upgraded contracts). 
+User's can set a preferred implementation version and optionally accept or disregard new releases (upgraded contracts). There is no requirement for all users to migrate simultaneously. 
 
 By default, users accept upgrades (automatic update). 
 
@@ -22,7 +22,7 @@ Upgradable contracts are written in familar styles, significantly reducing the l
 
 ## Preserves State
 
-Contract state is stored in the Proxy contract and preserved through versions. 
+Contract state is stored in the Proxy contract and preserved across versions. 
 
 ## Structure
 
