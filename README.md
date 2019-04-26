@@ -43,7 +43,7 @@ Contract state is stored in the Proxy contract and preserved across versions.
 ## Manage Releases
 
 - The account that deployed the `Proxy` is the intial owner of the registry contract, which is not upgradable. 
-- Each implementation contract inherits from the previous implementation contract source code. This is to prevent accidental overwrite of existing states. Existing storage layout and functions are preserved in the proxy contract. Be sure to pass in a `componentUid` that matches the `componentUid` the `Registry` expects or it will not accept the implementation. 
+- Each implementation contract inherits from the previous implementation contract source code. This is to prevent accidental overwrite of existing states. Existing storage layout and functions are preserved in the proxy contract. Be sure to pass in a `componentUid` that matches the `componentUid` the `Registry` expects or it will not accept the new implementation. 
 - Implementation contracts _should_ use the `onlyProxy` modifier to prevent implementation contracts writing to their own state when called directly. They should only be called through the `Proxy` to ensure all writes are to the `Proxy` state. 
 - Register additional implementation contracts. For example, `HellowWorld` and its upgrade, `HelloUniverse`.
 - Optionally set the default implementation to the new implementation contract. 
