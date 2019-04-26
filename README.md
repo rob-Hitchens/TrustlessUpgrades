@@ -38,7 +38,7 @@ Contract state is stored in the Proxy contract and preserved across versions.
 - Deploy an upgradable contract (the first implementation) that inherits from `Upgradable` and passes a `componentUid` to `Upgradable`. This value must match the `componentUid` in the `Registry`. This helps prevent deployment process errors. 
 - Register the address of the first implementation in the `Registry`. 
 - Set the default implementation to the first implementation in the `Registry`. 
-- Instantiate the upgradable contract with the implemntation's ABI _at the Proxy contract address._
+- Instantiate the upgradable contract with the implementation's ABI _at the Proxy contract address._
 
 ## Manage Releases
 
