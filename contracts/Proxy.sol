@@ -26,7 +26,7 @@ contract Proxy is ProxyInterface {
      * @notice Uses a collision-resistant storage slot.
      */
     constructor() public {
-        Registry registry = new Registry();
+        Registry registry = new Registry(false);
         registry.transferOwnership(msg.sender);
         address registryAddress = address(registry);
         bytes32 registryAddressStorageKey = REGISTRY_ADDRESS_KEY;
