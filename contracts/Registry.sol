@@ -116,6 +116,7 @@ contract Registry is RegistryInterface, Ownable {
         } else {
             require(userImpl != address(0), "User must setMyImplementation() first.");
             require(validImplementations.exists(userImpl), "User's selected implementation is recalled. User must setMyImplementation().");
+            return userImpl;
         }
     }
     
