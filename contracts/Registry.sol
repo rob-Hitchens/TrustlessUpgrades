@@ -30,7 +30,7 @@ contract Registry is RegistryInterface, Ownable {
     
     bool public OPT_IN;
     
-    address defaultImplementation;
+    address public defaultImplementation;
     address constant UNDEFINED = address(0);
     bytes32 COMPONENT_UID;
     
